@@ -1,25 +1,16 @@
-import React from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import Projects from './components/Projects';
-import Testimonials from './components/Testimonials';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import { Routes, Route } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import Admin from './pages/Admin';
+import Login from './pages/Login';
+
 
 function App() {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <Hero />
-      <About />
-      <Services />
-      <Projects />
-      <Testimonials />
-      <Contact />
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<MainLayout />} />
+      <Route path="/admin" element={<Admin />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
   );
 }
 
