@@ -27,18 +27,33 @@ const Admin = () => {
         <div className="bg-white rounded-lg shadow-md p-8">
           <h2 className="text-2xl font-semibold text-gray-700 mb-6">Add New Project</h2>
           <form className="space-y-6">
-            {/* Form fields will be made functional in the next step */}
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">Project Title</label>
               <input type="text" id="title" name="title" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
             </div>
-            <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-              <select id="category" name="category" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                <option>Residential</option>
-                <option>Commercial</option>
-                <option>Industrial</option>
-              </select>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select id="category" name="category" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                        <option>Residential</option>
+                        <option>Commercial</option>
+                        <option>Industrial</option>
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                    <input type="text" id="location" name="location" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
+                </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label htmlFor="value" className="block text-sm font-medium text-gray-700 mb-2">Project Value</label>
+                    <input type="text" id="value" name="value" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
+                </div>
+                <div>
+                    <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">Project Duration</label>
+                    <input type="text" id="duration" name="duration" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
+                </div>
             </div>
             <div>
               <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">Image</label>
