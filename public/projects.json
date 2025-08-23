@@ -58,5 +58,15 @@
     "duration": "10 Months",
     "image": "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
     "description": "Modern logistics and storage facility with automated systems and efficient loading docks."
+  },
+  {
+    "id": 7,
+    "title": "hehe",
+    "category": "Residential",
+    "location": "hehe",
+    "value": "21",
+    "duration": "hehe",
+    "description": "hehe",
+    "image": "/uploads/projects/7-IM-0011-0001-0001.jpeg"
   }
 ]
