@@ -76,9 +76,6 @@ const Services = () => {
               </ul>
               
               <div className="mt-6 pt-6 border-t border-gray-200">
-                <button className="text-orange-500 hover:text-orange-600 font-medium text-sm group-hover:underline transition-colors duration-200">
-                  Learn More →
-                </button>
               </div>
             </div>
           ))}
