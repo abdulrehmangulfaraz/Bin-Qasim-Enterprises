@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-blue-900 text-white py-2 px-4 text-sm">
+      <div className="bg-brand-blue text-white py-2 px-4 text-sm">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
@@ -47,23 +47,18 @@ const Header = () => {
         isScrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'
       }`}>
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-2">
-              {/* Logo Updated Here */}
-              <img src="/Logo.png" alt="Bin Qasim Enterprises Logo" className="h-24 w-auto" />
-              <div>
-                <h1 className="text-xl font-bold text-gray-800">Bin Qasim Enterprises</h1>
-                <p className="text-sm text-gray-600">Construction Excellence</p>
-              </div>
-            </div>
-
+          <div className="flex justify-between items-center py-2">
+            <a href="#home" onClick={() => scrollToSection('home')} className="cursor-pointer">
+              <img src="/logo1.png" alt="Bin Qasim Enterprises Logo" className="h-16 w-auto" />
+            </a>
+            
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex space-x-8">
               {['Home', 'About', 'Services', 'Projects', 'Contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="text-gray-700 hover:text-orange-500 font-medium transition-colors duration-200"
+                  className="text-gray-700 hover:text-brand-orange font-medium transition-colors duration-200"
                 >
                   {item}
                 </button>
@@ -74,7 +69,7 @@ const Header = () => {
             <div className="hidden lg:block">
               <button
                 onClick={() => scrollToSection('contact')}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200"
+                className="bg-brand-orange hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200"
               >
                 Get Quote
               </button>
@@ -94,18 +89,18 @@ const Header = () => {
         {isOpen && (
           <div className="lg:hidden bg-white border-t">
             <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-              {['Home', 'About', 'Services', 'Projects', 'Contact'].map((item) => (
+               {['Home', 'About', 'Services', 'Projects', 'Contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="text-gray-700 hover:text-orange-500 font-medium transition-colors duration-200 text-left"
+                  className="text-gray-700 hover:text-brand-orange font-medium transition-colors duration-200 text-left"
                 >
                   {item}
                 </button>
               ))}
               <button
                 onClick={() => scrollToSection('contact')}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 w-fit"
+                className="bg-brand-orange hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 w-fit"
               >
                 Get Quote
               </button>

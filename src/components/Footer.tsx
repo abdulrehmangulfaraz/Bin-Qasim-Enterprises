@@ -14,44 +14,27 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-white relative">
-      {/* Scroll to Top Button */}
+    <footer className="bg-brand-blue text-white relative">
       <button
         onClick={scrollToTop}
-        className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+        className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-brand-orange hover:opacity-90 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
       >
         <ArrowUp size={20} />
       </button>
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-6">
-              {/* Logo Updated Here */}
-              <img src="/logo1.png" alt="Bin Qasim Enterprises Logo" className="h-24 w-auto" />
-              <div>
-                <h3 className="text-xl font-bold">Bin Qasim Enterprises</h3>
-                <p className="text-sm text-gray-400">Construction Excellence</p>
-              </div>
-            </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <img src="/logo1.png" alt="Bin Qasim Enterprises Logo" className="h-16 w-auto mb-6 bg-white p-2 rounded-lg" />
+            <p className="text-gray-300 mb-6 leading-relaxed">
               Building Pakistan's future with quality construction, innovative designs, 
               and exceptional service since 2010.
             </p>
             <div className="flex space-x-4">
-              <button className="bg-gray-800 hover:bg-orange-500 p-2 rounded-lg transition-colors duration-200">
-                <Facebook size={20} />
-              </button>
-              <button className="bg-gray-800 hover:bg-orange-500 p-2 rounded-lg transition-colors duration-200">
-                <Linkedin size={20} />
-              </button>
-              <button className="bg-gray-800 hover:bg-orange-500 p-2 rounded-lg transition-colors duration-200">
-                <Twitter size={20} />
-              </button>
-              <button className="bg-gray-800 hover:bg-orange-500 p-2 rounded-lg transition-colors duration-200">
-                <Instagram size={20} />
-              </button>
+              <a href="#" className="bg-blue-900 hover:bg-brand-orange p-2 rounded-lg transition-colors duration-200"><Facebook size={20} /></a>
+              <a href="#" className="bg-blue-900 hover:bg-brand-orange p-2 rounded-lg transition-colors duration-200"><Linkedin size={20} /></a>
+              <a href="#" className="bg-blue-900 hover:bg-brand-orange p-2 rounded-lg transition-colors duration-200"><Twitter size={20} /></a>
+              <a href="#" className="bg-blue-900 hover:bg-brand-orange p-2 rounded-lg transition-colors duration-200"><Instagram size={20} /></a>
             </div>
           </div>
 

@@ -219,17 +219,19 @@ const Contact = () => {
 
         {/* Map Section */}
         <div className="mt-16">
-          <div className="bg-white rounded-lg shadow-sm p-8">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Visit Our Office</h3>
-            <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="mx-auto text-orange-500 mb-2" size={48} />
-                <p className="text-gray-600">Interactive Map Coming Soon</p>
-                <p className="text-sm text-gray-500 mt-2">
-                  Office # 123, Main Boulevard, DHA Phase 2, Karachi, Pakistan
-                </p>
-              </div>
-            </div>
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            {/* TODO for you: 
+              1. Go to Google Maps and find your exact business location.
+              2. Click "Share", then "Embed a map".
+              3. Copy the HTML and paste it here, replacing this iframe.
+            */}
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462118.0028247076!2d66.8252174828624!3d25.19323381623395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f90157042d3%3A0x93d609e8bec9a880!2sDHA%20Phase%202%2C%20Karachi%2C%20Karachi%20City%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1662557933932!5m2!1sen!2s" 
+              className="w-full h-96 border-0" 
+              allowFullScreen={false} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade">
+            </iframe>
           </div>
         </div>
       </div>
