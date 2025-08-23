@@ -2,27 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for Swiper pagination and navigation */
-.swiper-button-next,
-.swiper-button-prev {
-  color: #f97316 !important; /* Tailwind's orange-500 */
-  transition: transform 0.2s ease-in-out;
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-    transform: scale(1.2);
-}
-
-.swiper-pagination-bullet {
+/* Custom styles for the new Testimonial Swiper */
+.testimonial-swiper .swiper-pagination-bullet {
     background: #fb923c !important; /* Tailwind's orange-400 */
     width: 10px !important;
     height: 10px !important;
     transition: all 0.2s ease-in-out;
 }
 
-.swiper-pagination-bullet-active {
+.testimonial-swiper .swiper-pagination-bullet-active {
   background-color: #f97316 !important; /* Tailwind's orange-500 */
   width: 24px !important;
   border-radius: 5px !important;
+}
+
+.testimonial-swiper .swiper-button-next,
+.testimonial-swiper .swiper-button-prev {
+  background-color: white;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  color: #f97316 !important; /* Tailwind's orange-500 */
+  width: 44px !important;
+  height: 44px !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.testimonial-swiper .swiper-button-next:hover,
+.testimonial-swiper .swiper-button-prev:hover {
+    background-color: #f97316;
+    color: white !important;
+    transform: scale(1.1);
+}
+
+.testimonial-swiper .swiper-button-next::after,
+.testimonial-swiper .swiper-button-prev::after {
+    font-size: 18px !important;
+    font-weight: bold;
 }
