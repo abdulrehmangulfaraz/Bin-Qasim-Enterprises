@@ -8,7 +8,6 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // A scroll of more than 20px will trigger the background effect
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
@@ -23,24 +22,28 @@ const Header = () => {
     setIsOpen(false);
   };
 
+  const navLinks = ['Home', 'About', 'Services', 'Projects', 'Contact'];
+
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-white/90 dark:bg-gray-800/90 shadow-md backdrop-blur-sm' 
-        : 'bg-transparent'
-    }`}>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-background-light/80 dark:bg-background-dark/80 shadow-md backdrop-blur-sm'
+          : 'bg-transparent'
+      }`}
+    >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-2">
-          <a href="#home" onClick={() => scrollToSection('home')} className="cursor-pointer">
+          <button onClick={() => scrollToSection('home')} className="cursor-pointer">
             <img src="/logo1.png" alt="Bin Qasim Enterprises Logo" className="h-16 w-auto" />
-          </a>
-          
+          </button>
+
           <nav className="hidden lg:flex items-center space-x-8">
-            {['Home', 'About', 'Services', 'Projects', 'Contact'].map((item) => (
+            {navLinks.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className="text-gray-700 dark:text-gray-300 hover:text-brand-orange dark:hover:text-brand-orange font-medium transition-colors duration-200"
+                className="font-medium text-text-primary-light dark:text-text-primary-dark hover:text-brand-secondary-dark dark:hover:text-brand-secondary-light transition-colors duration-200"
               >
                 {item}
               </button>
@@ -51,7 +54,7 @@ const Header = () => {
             <ThemeToggle />
             <button
               onClick={() => scrollToSection('contact')}
-              className="bg-brand-orange hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200"
+              className="bg-brand-secondary hover:bg-brand-secondary-dark text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105"
             >
               Get Quote
             </button>
@@ -60,29 +63,31 @@ const Header = () => {
           <div className="lg:hidden flex items-center gap-4">
             <ThemeToggle />
             <button onClick={() => setIsOpen(!isOpen)}>
-              {isOpen 
-                ? <X size={24} className="text-gray-800 dark:text-gray-200" /> 
-                : <Menu size={24} className="text-gray-800 dark:text-gray-200" />}
+              {isOpen ? (
+                <X size={24} className="text-text-primary-light dark:text-text-primary-dark" />
+              ) : (
+                <Menu size={24} className="text-text-primary-light dark:text-text-primary-dark" />
+              )}
             </button>
           </div>
         </div>
       </div>
 
       {isOpen && (
-        <div className="lg:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div className="lg:hidden bg-background-alt-light dark:bg-background-alt-dark border-t border-border-light dark:border-border-dark">
           <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-             {['Home', 'About', 'Services', 'Projects', 'Contact'].map((item) => (
+            {navLinks.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className="text-gray-700 dark:text-gray-300 hover:text-brand-orange dark:hover:text-brand-orange font-medium transition-colors duration-200 text-left"
+                className="font-medium text-text-primary-light dark:text-text-primary-dark hover:text-brand-secondary-dark dark:hover:text-brand-secondary-light transition-colors duration-200 text-left"
               >
                 {item}
               </button>
             ))}
             <button
               onClick={() => scrollToSection('contact')}
-              className="bg-brand-orange hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 w-fit"
+              className="bg-brand-secondary hover:bg-brand-secondary-dark text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 w-fit"
             >
               Get Quote
             </button>

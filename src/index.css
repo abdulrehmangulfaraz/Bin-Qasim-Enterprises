@@ -2,4 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* We'll add new styles here later if needed, but for now, it's clean. */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark font-sans transition-colors duration-300;
+  }
+}
