@@ -33,7 +33,7 @@ const Header = () => {
             </div>
             <div className="flex items-center space-x-2">
               <Mail size={16} />
-              <span>info@binqasimEnterprises.com</span>
+              <span>info@binqasimenterprises.com</span>
             </div>
           </div>
           <div className="hidden md:block">
@@ -47,11 +47,10 @@ const Header = () => {
         isScrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'
       }`}>
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">BQ</span>
-              </div>
+              {/* Logo Updated Here */}
+              <img src="/Logo.png" alt="Bin Qasim Enterprises Logo" className="h-24 w-auto" />
               <div>
                 <h1 className="text-xl font-bold text-gray-800">Bin Qasim Enterprises</h1>
                 <p className="text-sm text-gray-600">Construction Excellence</p>
