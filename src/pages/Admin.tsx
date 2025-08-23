@@ -1,14 +1,33 @@
 import React from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
+            >
+              Logout
+            </button>
+        </div>
 
-        <div className="mb-10">
+        <div className="bg-white rounded-lg shadow-md p-8">
           <h2 className="text-2xl font-semibold text-gray-700 mb-6">Add New Project</h2>
           <form className="space-y-6">
+            {/* Form fields will be made functional in the next step */}
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">Project Title</label>
               <input type="text" id="title" name="title" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
@@ -34,7 +53,6 @@ const Admin = () => {
             </button>
           </form>
         </div>
-
       </div>
     </div>
   );
