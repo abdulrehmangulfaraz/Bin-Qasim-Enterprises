@@ -3,12 +3,12 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // import required modules
-import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
+import { EffectFade, Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Star, Quote } from 'lucide-react';
 
 const Testimonials = () => {
@@ -64,7 +64,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <span className="text-orange-500 font-semibold text-sm uppercase tracking-wider">Client Testimonials</span>
@@ -78,62 +78,50 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <Swiper
-          effect={'coverflow'}
-          grabCursor={true}
-          centeredSlides={true}
-          loop={true}
-          slidesPerView={'auto'}
-          coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-          className="mySwiper"
-        >
-          {testimonials.map((testimonial, index) => (
-            <SwiperSlide key={index} style={{ width: '300px', height: 'auto' }} className="pb-12">
-              <div className="bg-gray-50 rounded-lg p-8 shadow-lg border border-gray-100 relative h-full flex flex-col">
-                <Quote className="text-orange-500 opacity-10 absolute top-4 right-4" size={40} />
-                
-                <div className="flex items-center mb-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover mr-4 border-2 border-orange-500 p-1"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
-                    <p className="text-gray-600 text-sm">{testimonial.position}</p>
-                    <p className="text-orange-500 text-sm font-medium">{testimonial.company}</p>
-                  </div>
+        <div className="max-w-3xl mx-auto">
+            <Swiper
+                modules={[EffectFade, Navigation, Pagination, Autoplay]}
+                effect={'fade'}
+                spaceBetween={30}
+                slidesPerView={1}
+                loop={true}
+                autoplay={{
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                }}
+                pagination={{
+                    clickable: true,
+                }}
+                navigation={true}
+                className="mySwiper"
+            >
+            {testimonials.map((testimonial, index) => (
+                <SwiperSlide key={index}>
+                <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 relative h-full flex flex-col text-center items-center">
+                    <Quote className="text-orange-500 opacity-10 absolute top-6 right-6" size={50} />
+                    <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-orange-500 p-1"
+                    />
+                    <div className="flex mb-3">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                            <Star key={i} className="text-yellow-400 fill-current" size={18} />
+                        ))}
+                    </div>
+                    <p className="text-gray-700 leading-relaxed italic text-lg mb-6 flex-grow">
+                        "{testimonial.text}"
+                    </p>
+                    <div>
+                        <h4 className="font-bold text-lg text-gray-800">{testimonial.name}</h4>
+                        <p className="text-gray-500 text-sm">{testimonial.position}, <span className="text-orange-500 font-medium">{testimonial.company}</span></p>
+                    </div>
                 </div>
-
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="text-yellow-400 fill-current" size={16} />
-                  ))}
-                </div>
-
-                <p className="text-gray-700 text-sm leading-relaxed italic flex-grow">
-                  "{testimonial.text}"
-                </p>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                </SwiperSlide>
+            ))}
+            </Swiper>
+        </div>
       </div>
     </section>
   );

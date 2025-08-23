@@ -2,12 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add these custom styles for Swiper */
+/* Custom styles for Swiper pagination and navigation */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #f97316 !important; /* This is Tailwind's orange-500 */
+  color: #f97316 !important; /* Tailwind's orange-500 */
+  transition: transform 0.2s ease-in-out;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    transform: scale(1.2);
+}
+
+.swiper-pagination-bullet {
+    background: #fb923c !important; /* Tailwind's orange-400 */
+    width: 10px !important;
+    height: 10px !important;
+    transition: all 0.2s ease-in-out;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #f97316 !important; /* This is Tailwind's orange-500 */
+  background-color: #f97316 !important; /* Tailwind's orange-500 */
+  width: 24px !important;
+  border-radius: 5px !important;
 }
