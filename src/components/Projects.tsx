@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Calendar, MapPin, DollarSign } from 'lucide-react';
+import ProjectCard from './ProjectCard'; // Import the new component
 
+// Updated Project interface
 interface Project {
   id: number;
   title: string;
@@ -8,7 +9,7 @@ interface Project {
   location: string;
   value: string;
   duration: string;
-  image: string;
+  images: string[];
   description: string;
 }
 
@@ -67,53 +68,7 @@ const Projects = () => {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
-            <div key={project.id} className="group bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-              <div className="relative overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {project.category}
-                  </span>
-                </div>
-                <div className="absolute inset-0 bg-blue-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <button className="bg-white text-blue-900 p-3 rounded-full hover:scale-110 transition-transform duration-200">
-                    <ExternalLink size={20} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-orange-500 transition-colors duration-200">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-4 text-sm leading-relaxed">{project.description}</p>
-
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <MapPin size={16} className="mr-2 text-orange-500" />
-                    {project.location}
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <DollarSign size={16} className="mr-2 text-orange-500" />
-                    {project.value}
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Calendar size={16} className="mr-2 text-orange-500" />
-                    {project.duration}
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-gray-200">
-                  <button className="text-orange-500 hover:text-orange-600 font-medium text-sm group-hover:underline transition-colors duration-200">
-                    View Project Details →
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </div>

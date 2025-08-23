@@ -6,7 +6,11 @@
     "location": "Karachi, Pakistan",
     "value": "$2.5M",
     "duration": "18 Months",
-    "image": "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    "images": [
+      "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      "https://images.pexels.com/photos/209296/pexels-photo-209296.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+    ],
     "description": "Modern 120-unit residential complex with premium amenities and sustainable design features."
   },
   {
@@ -16,7 +20,9 @@
     "location": "Lahore, Pakistan",
     "value": "$5.2M",
     "duration": "24 Months",
-    "image": "https://images.pexels.com/photos/443383/pexels-photo-443383.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    "images": [
+      "https://images.pexels.com/photos/443383/pexels-photo-443383.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+    ],
     "description": "25-story modern office building with state-of-the-art facilities and smart building technology."
   },
   {
@@ -26,7 +32,10 @@
     "location": "Faisalabad, Pakistan",
     "value": "$3.8M",
     "duration": "15 Months",
-    "image": "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    "images": [
+      "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      "https://images.pexels.com/photos/2225617/pexels-photo-2225617.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+    ],
     "description": "Large-scale textile manufacturing facility with modern equipment and efficient workflow design."
   },
   {
@@ -36,7 +45,9 @@
     "location": "Islamabad, Pakistan",
     "value": "$4.1M",
     "duration": "20 Months",
-    "image": "https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    "images": [
+      "https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+    ],
     "description": "Multi-level shopping center with entertainment zones, food courts, and parking facilities."
   },
   {
@@ -46,7 +57,9 @@
     "location": "Rawalpindi, Pakistan",
     "value": "$1.8M",
     "duration": "12 Months",
-    "image": "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    "images": [
+      "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+    ],
     "description": "Luxury villa development with 15 custom-designed homes featuring modern architecture."
   },
   {
@@ -56,17 +69,9 @@
     "location": "Multan, Pakistan",
     "value": "$2.2M",
     "duration": "10 Months",
-    "image": "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    "images": [
+      "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+    ],
     "description": "Modern logistics and storage facility with automated systems and efficient loading docks."
-  },
-  {
-    "id": 7,
-    "title": "hehe",
-    "category": "Residential",
-    "location": "hehe",
-    "value": "21",
-    "duration": "hehe",
-    "description": "hehe",
-    "image": "/uploads/projects/7-IM-0011-0001-0001.jpeg"
   }
 ]
