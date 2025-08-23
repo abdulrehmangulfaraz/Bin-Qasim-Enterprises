@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Octokit } from '@octokit/rest';
 
-// Define the structure of a project
+// Updated Project interface to accept multiple images
 interface Project {
   id: number;
   title: string;
@@ -11,7 +11,7 @@ interface Project {
   location: string;
   value: string;
   duration: string;
-  image: string;
+  images: string[]; // Changed from string to string[]
   description: string;
 }
 
@@ -29,7 +29,8 @@ const Admin = () => {
     duration: '',
     description: '',
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  // State now holds an array of files
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -37,8 +38,9 @@ const Admin = () => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
+    if (e.target.files) {
+      // Convert FileList to array and store it
+      setImageFiles(Array.from(e.target.files));
     }
   };
   
@@ -49,8 +51,8 @@ const Admin = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!imageFile) {
-        setStatusMessage('Please select an image for the project.');
+    if (imageFiles.length === 0) {
+        setStatusMessage('Please select at least one image for the project.');
         return;
     }
 
@@ -60,115 +62,82 @@ const Admin = () => {
     const octokit = new Octokit({ auth: import.meta.env.VITE_GITHUB_TOKEN });
     const owner = import.meta.env.VITE_GITHUB_OWNER;
     const repo = import.meta.env.VITE_GITHUB_REPO;
-    const branch = 'main'; // Or 'master', depending on your repo's default branch
+    const branch = 'main'; 
 
     try {
-        // Step 1: Get the latest commit SHA of the branch
+        // --- Get basic repo info ---
         setStatusMessage('Getting latest commit from GitHub...');
-        const { data: { object: { sha: latestCommitSha } } } = await octokit.rest.git.getRef({
-            owner,
-            repo,
-            ref: `heads/${branch}`,
-        });
+        const { data: { object: { sha: latestCommitSha } } } = await octokit.rest.git.getRef({ owner, repo, ref: `heads/${branch}` });
+        const { data: { sha: baseTreeSha } } = await octokit.rest.git.getCommit({ owner, repo, commit_sha: latestCommitSha });
 
-        // Step 2: Get the current projects.json content
+        // --- Get current projects data ---
         setStatusMessage('Fetching current project list...');
-        const { data: currentProjectsFile } = await octokit.rest.repos.getContent({
-            owner,
-            repo,
-            path: 'public/projects.json',
-            ref: branch,
-        });
-
+        const { data: currentProjectsFile } = await octokit.rest.repos.getContent({ owner, repo, path: 'public/projects.json', ref: branch });
         const projectsContent = atob((currentProjectsFile as any).content);
         const projects: Project[] = JSON.parse(projectsContent);
         const newProjectId = projects.length > 0 ? Math.max(...projects.map(p => p.id)) + 1 : 1;
 
-        // Step 3: Create the new project object
-        const imagePath = `public/uploads/projects/${newProjectId}-${imageFile.name}`;
+        // --- Handle multiple image uploads ---
+        setStatusMessage(`Uploading ${imageFiles.length} images...`);
+        const imageUploadPromises = imageFiles.map(async (file) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            const base64Image = await new Promise<string>((resolve, reject) => {
+                reader.onload = () => resolve((reader.result as string).split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+            const imageBlob = await octokit.rest.git.createBlob({ owner, repo, content: base64Image, encoding: 'base64' });
+            return {
+                sha: imageBlob.data.sha,
+                path: `public/uploads/projects/${newProjectId}-${file.name}`,
+            };
+        });
+
+        const uploadedImages = await Promise.all(imageUploadPromises);
+        const newImagePaths = uploadedImages.map(img => `/${img.path.replace('public/', '')}`);
+
+        // --- Update projects.json ---
+        setStatusMessage('Updating project list...');
         const newProject: Project = {
             id: newProjectId,
             ...formData,
-            image: `/${imagePath.replace('public/', '')}`,
+            images: newImagePaths,
         };
-
-        // Step 4: Create blob for the new image
-        setStatusMessage('Uploading new image...');
-        const reader = new FileReader();
-        reader.readAsDataURL(imageFile);
-        const base64Image = await new Promise<string>((resolve, reject) => {
-            reader.onload = () => resolve((reader.result as string).split(',')[1]);
-            reader.onerror = error => reject(error);
-        });
-        const imageBlob = await octokit.rest.git.createBlob({
-            owner,
-            repo,
-            content: base64Image,
-            encoding: 'base64',
-        });
-
-        // Step 5: Create blob for the updated projects.json
-        setStatusMessage('Updating project list...');
         const updatedProjects = [...projects, newProject];
         const updatedProjectsContent = JSON.stringify(updatedProjects, null, 2);
-        const jsonBlob = await octokit.rest.git.createBlob({
-            owner,
-            repo,
-            content: updatedProjectsContent,
-            encoding: 'utf-8',
-        });
+        const jsonBlob = await octokit.rest.git.createBlob({ owner, repo, content: updatedProjectsContent, encoding: 'utf-8' });
 
-        // Step 6: Create a new tree with the new blobs
+        // --- Create a new git tree ---
         setStatusMessage('Preparing new commit...');
-        const { data: { sha: baseTreeSha } } = await octokit.rest.git.getCommit({
-            owner,
-            repo,
-            commit_sha: latestCommitSha
+        const newTreeEntries = uploadedImages.map(img => ({
+            path: img.path,
+            mode: '100644' as const,
+            type: 'blob' as const,
+            sha: img.sha,
+        }));
+        newTreeEntries.push({
+            path: 'public/projects.json',
+            mode: '100644',
+            type: 'blob',
+            sha: jsonBlob.data.sha,
         });
 
         const newTree = await octokit.rest.git.createTree({
             owner,
             repo,
             base_tree: baseTreeSha,
-            tree: [
-                {
-                    path: 'public/projects.json',
-                    mode: '100644',
-                    type: 'blob',
-                    sha: jsonBlob.data.sha, // <-- Use SHA for the JSON blob
-                },
-                {
-                    path: imagePath,
-                    mode: '100644',
-                    type: 'blob',
-                    sha: imageBlob.data.sha, // <-- Use SHA for the image blob
-                },
-            ],
+            tree: newTreeEntries,
         });
 
-        // Step 7: Create a new commit
+        // --- Create and push the commit ---
         setStatusMessage('Creating new commit...');
-        const newCommit = await octokit.rest.git.createCommit({
-            owner,
-            repo,
-            message: `feat: add new project '${formData.title}'`,
-            tree: newTree.data.sha,
-            parents: [latestCommitSha],
-        });
-
-        // Step 8: Update the branch reference
-        setStatusMessage('Pushing changes to GitHub...');
-        await octokit.rest.git.updateRef({
-            owner,
-            repo,
-            ref: `heads/${branch}`,
-            sha: newCommit.data.sha,
-        });
+        const newCommit = await octokit.rest.git.createCommit({ owner, repo, message: `feat: add new project '${formData.title}'`, tree: newTree.data.sha, parents: [latestCommitSha] });
+        await octokit.rest.git.updateRef({ owner, repo, ref: `heads/${branch}`, sha: newCommit.data.sha });
 
         setStatusMessage('Project added successfully! Your site is now redeploying.');
         // Reset form
         setFormData({ title: '', category: 'Residential', location: '', value: '', duration: '', description: '' });
-        setImageFile(null);
+        setImageFiles([]);
         (document.getElementById('image') as HTMLInputElement).value = '';
 
     } catch (error) {
@@ -178,7 +147,6 @@ const Admin = () => {
         setIsSubmitting(false);
     }
 };
-
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -225,9 +193,17 @@ const Admin = () => {
                 </div>
             </div>
             <div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">Image</label>
-              <input type="file" id="image" name="image" onChange={handleFileChange} accept="image/*" className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100" required/>
+              <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">Images</label>
+              <input type="file" id="image" name="image" onChange={handleFileChange} accept="image/*" className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100" required multiple />
             </div>
+            {imageFiles.length > 0 && (
+                <div className="p-4 border border-gray-200 rounded-lg">
+                    <p className="text-sm font-medium text-gray-700 mb-2">Selected files:</p>
+                    <ul className="list-disc list-inside text-sm text-gray-600">
+                        {imageFiles.map(file => <li key={file.name}>{file.name}</li>)}
+                    </ul>
+                </div>
+            )}
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">Description</label>
               <textarea id="description" name="description" value={formData.description} onChange={handleInputChange} rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" required></textarea>
