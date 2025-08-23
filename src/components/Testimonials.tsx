@@ -3,12 +3,12 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
+import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import 'swiper/css/autoplay';
 
 // import required modules
-import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { Star, Quote } from 'lucide-react';
 
 const Testimonials = () => {
@@ -79,12 +79,20 @@ const Testimonials = () => {
         </div>
 
         <Swiper
-          modules={[Pagination, Navigation, Autoplay]}
-          spaceBetween={30}
-          slidesPerView={1}
+          effect={'coverflow'}
+          grabCursor={true}
+          centeredSlides={true}
           loop={true}
+          slidesPerView={'auto'}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
           autoplay={{
-            delay: 2000,
+            delay: 3000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
@@ -92,28 +100,19 @@ const Testimonials = () => {
             clickable: true,
           }}
           navigation={true}
-          breakpoints={{
-            640: {
-              slidesPerView: 2,
-              spaceBetween: 20,
-            },
-            1024: {
-              slidesPerView: 3,
-              spaceBetween: 30,
-            },
-          }}
+          modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >
           {testimonials.map((testimonial, index) => (
-            <SwiperSlide key={index} className="pb-12">
-              <div className="bg-gray-50 hover:bg-white rounded-lg p-8 transition-all duration-300 hover:shadow-xl border hover:border-orange-200 relative h-full flex flex-col">
-                <Quote className="text-orange-500 opacity-20 absolute top-4 right-4" size={40} />
+            <SwiperSlide key={index} style={{ width: '300px', height: 'auto' }} className="pb-12">
+              <div className="bg-gray-50 rounded-lg p-8 shadow-lg border border-gray-100 relative h-full flex flex-col">
+                <Quote className="text-orange-500 opacity-10 absolute top-4 right-4" size={40} />
                 
                 <div className="flex items-center mb-6">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover mr-4"
+                    className="w-16 h-16 rounded-full object-cover mr-4 border-2 border-orange-500 p-1"
                   />
                   <div>
                     <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
@@ -128,35 +127,13 @@ const Testimonials = () => {
                   ))}
                 </div>
 
-                <p className="text-gray-700 leading-relaxed italic flex-grow">
+                <p className="text-gray-700 text-sm leading-relaxed italic flex-grow">
                   "{testimonial.text}"
                 </p>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-
-        {/* Trust Indicators */}
-        <div className="mt-20 bg-gray-50 rounded-lg p-8">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Trusted by Leading Companies</h3>
-            <p className="text-gray-600">We've had the privilege of working with industry leaders across Pakistan</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-            {[
-              { metric: '98%', label: 'Client Satisfaction Rate' },
-              { metric: '150+', label: 'Completed Projects' },
-              { metric: '24/7', label: 'Customer Support' },
-              { metric: '14+', label: 'Years of Experience' }
-            ].map((item, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg">
-                <div className="text-3xl font-bold text-orange-500 mb-2">{item.metric}</div>
-                <div className="text-gray-600 text-sm">{item.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
