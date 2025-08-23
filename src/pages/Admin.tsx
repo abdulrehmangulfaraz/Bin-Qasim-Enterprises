@@ -103,7 +103,10 @@ const Admin = () => {
             ...formData,
             images: newImagePaths,
         };
-        const updatedProjects = [...projects, newProject];
+        
+        // **MODIFIED LINE: Add the new project to the beginning of the array**
+        const updatedProjects = [newProject, ...projects];
+        
         const updatedProjectsContent = JSON.stringify(updatedProjects, null, 2);
         const jsonBlob = await octokit.rest.git.createBlob({ owner, repo, content: updatedProjectsContent, encoding: 'utf-8' });
 

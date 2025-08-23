@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ProjectCard from './ProjectCard'; // Import the new component
+import ProjectCard from './ProjectCard';
 
-// Updated Project interface
 interface Project {
   id: number;
   title: string;
@@ -13,9 +12,12 @@ interface Project {
   description: string;
 }
 
+const PROJECTS_PER_PAGE = 6;
+
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [projects, setProjects] = useState<Project[]>([]);
+  const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
 
   useEffect(() => {
     fetch('/projects.json')
@@ -25,9 +27,20 @@ const Projects = () => {
 
   const categories = ['All', 'Residential', 'Commercial', 'Industrial'];
 
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    setVisibleCount(PROJECTS_PER_PAGE); // Reset visible count when category changes
+  };
+
+  const loadMoreProjects = () => {
+    setVisibleCount(prevCount => prevCount + PROJECTS_PER_PAGE);
+  };
+
   const filteredProjects = activeCategory === 'All'
     ? projects
     : projects.filter(project => project.category === activeCategory);
+  
+  const visibleProjects = filteredProjects.slice(0, visibleCount);
 
   return (
     <section id="projects" className="py-20 bg-gray-50">
@@ -51,7 +64,7 @@ const Projects = () => {
               {categories.map((category) => (
                 <button
                   key={category}
-                  onClick={() => setActiveCategory(category)}
+                  onClick={() => handleCategoryChange(category)}
                   className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${
                     activeCategory === category
                       ? 'bg-orange-500 text-white'
@@ -67,10 +80,22 @@ const Projects = () => {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
+          {visibleProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
+
+        {/* Show More Button */}
+        {visibleCount < filteredProjects.length && (
+          <div className="text-center mt-12">
+            <button
+              onClick={loadMoreProjects}
+              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-medium text-lg transition-all duration-300 transform hover:scale-105"
+            >
+              Show More Projects
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
