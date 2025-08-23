@@ -1,4 +1,14 @@
 import React from 'react';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
+
+// import required modules
+import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { Star, Quote } from 'lucide-react';
 
 const Testimonials = () => {
@@ -68,36 +78,63 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <Swiper
+          modules={[Pagination, Navigation, Autoplay]}
+          spaceBetween={30}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{
+            delay: 2000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+          }}
+          className="mySwiper"
+        >
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-gray-50 hover:bg-white rounded-lg p-8 transition-all duration-300 hover:shadow-xl border hover:border-orange-200 relative">
-              <Quote className="text-orange-500 opacity-20 absolute top-4 right-4" size={40} />
-              
-              <div className="flex items-center mb-6">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-16 h-16 rounded-full object-cover mr-4"
-                />
-                <div>
-                  <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
-                  <p className="text-gray-600 text-sm">{testimonial.position}</p>
-                  <p className="text-orange-500 text-sm font-medium">{testimonial.company}</p>
+            <SwiperSlide key={index} className="pb-12">
+              <div className="bg-gray-50 hover:bg-white rounded-lg p-8 transition-all duration-300 hover:shadow-xl border hover:border-orange-200 relative h-full flex flex-col">
+                <Quote className="text-orange-500 opacity-20 absolute top-4 right-4" size={40} />
+                
+                <div className="flex items-center mb-6">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-16 h-16 rounded-full object-cover mr-4"
+                  />
+                  <div>
+                    <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
+                    <p className="text-gray-600 text-sm">{testimonial.position}</p>
+                    <p className="text-orange-500 text-sm font-medium">{testimonial.company}</p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="text-yellow-400 fill-current" size={16} />
-                ))}
-              </div>
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="text-yellow-400 fill-current" size={16} />
+                  ))}
+                </div>
 
-              <p className="text-gray-700 leading-relaxed italic">
-                "{testimonial.text}"
-              </p>
-            </div>
+                <p className="text-gray-700 leading-relaxed italic flex-grow">
+                  "{testimonial.text}"
+                </p>
+              </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
 
         {/* Trust Indicators */}
         <div className="mt-20 bg-gray-50 rounded-lg p-8">
