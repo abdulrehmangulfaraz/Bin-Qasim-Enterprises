@@ -3,6 +3,9 @@
 interface ImportMetaEnv {
     readonly VITE_ADMIN_USERNAME: string;
     readonly VITE_ADMIN_PASSWORD: string;
+    readonly VITE_GITHUB_TOKEN: string;
+    readonly VITE_GITHUB_OWNER: string;
+    readonly VITE_GITHUB_REPO: string;
   }
   
   interface ImportMeta {

@@ -1,15 +1,184 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Octokit } from '@octokit/rest';
+
+// Define the structure of a project
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  location: string;
+  value: string;
+  duration: string;
+  image: string;
+  description: string;
+}
 
 const Admin = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
 
+  const [formData, setFormData] = useState({
+    title: '',
+    category: 'Residential',
+    location: '',
+    value: '',
+    duration: '',
+    description: '',
+  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]);
+    }
+  };
+  
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!imageFile) {
+        setStatusMessage('Please select an image for the project.');
+        return;
+    }
+
+    setIsSubmitting(true);
+    setStatusMessage('Starting submission...');
+
+    const octokit = new Octokit({ auth: import.meta.env.VITE_GITHUB_TOKEN });
+    const owner = import.meta.env.VITE_GITHUB_OWNER;
+    const repo = import.meta.env.VITE_GITHUB_REPO;
+    const branch = 'main'; // Or 'master', depending on your repo's default branch
+
+    try {
+        // Step 1: Get the latest commit SHA of the branch
+        setStatusMessage('Getting latest commit from GitHub...');
+        const { data: { object: { sha: latestCommitSha } } } = await octokit.rest.git.getRef({
+            owner,
+            repo,
+            ref: `heads/${branch}`,
+        });
+
+        // Step 2: Get the current projects.json content
+        setStatusMessage('Fetching current project list...');
+        const { data: currentProjectsFile } = await octokit.rest.repos.getContent({
+            owner,
+            repo,
+            path: 'public/projects.json',
+            ref: branch,
+        });
+
+        const projectsContent = atob((currentProjectsFile as any).content);
+        const projects: Project[] = JSON.parse(projectsContent);
+        const newProjectId = projects.length > 0 ? Math.max(...projects.map(p => p.id)) + 1 : 1;
+
+        // Step 3: Create the new project object
+        const imagePath = `public/uploads/projects/${newProjectId}-${imageFile.name}`;
+        const newProject: Project = {
+            id: newProjectId,
+            ...formData,
+            image: `/${imagePath.replace('public/', '')}`,
+        };
+
+        // Step 4: Create blob for the new image
+        setStatusMessage('Uploading new image...');
+        const reader = new FileReader();
+        reader.readAsDataURL(imageFile);
+        const base64Image = await new Promise<string>((resolve, reject) => {
+            reader.onload = () => resolve((reader.result as string).split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+        const imageBlob = await octokit.rest.git.createBlob({
+            owner,
+            repo,
+            content: base64Image,
+            encoding: 'base64',
+        });
+
+        // Step 5: Create blob for the updated projects.json
+        setStatusMessage('Updating project list...');
+        const updatedProjects = [...projects, newProject];
+        const updatedProjectsContent = JSON.stringify(updatedProjects, null, 2);
+        const jsonBlob = await octokit.rest.git.createBlob({
+            owner,
+            repo,
+            content: updatedProjectsContent,
+            encoding: 'utf-8',
+        });
+
+        // Step 6: Create a new tree with the new blobs
+        setStatusMessage('Preparing new commit...');
+        const { data: { sha: baseTreeSha } } = await octokit.rest.git.getCommit({
+            owner,
+            repo,
+            commit_sha: latestCommitSha
+        });
+
+        const newTree = await octokit.rest.git.createTree({
+            owner,
+            repo,
+            base_tree: baseTreeSha,
+            tree: [
+                {
+                    path: 'public/projects.json',
+                    mode: '100644',
+                    type: 'blob',
+                    sha: jsonBlob.data.sha, // <-- Use SHA for the JSON blob
+                },
+                {
+                    path: imagePath,
+                    mode: '100644',
+                    type: 'blob',
+                    sha: imageBlob.data.sha, // <-- Use SHA for the image blob
+                },
+            ],
+        });
+
+        // Step 7: Create a new commit
+        setStatusMessage('Creating new commit...');
+        const newCommit = await octokit.rest.git.createCommit({
+            owner,
+            repo,
+            message: `feat: add new project '${formData.title}'`,
+            tree: newTree.data.sha,
+            parents: [latestCommitSha],
+        });
+
+        // Step 8: Update the branch reference
+        setStatusMessage('Pushing changes to GitHub...');
+        await octokit.rest.git.updateRef({
+            owner,
+            repo,
+            ref: `heads/${branch}`,
+            sha: newCommit.data.sha,
+        });
+
+        setStatusMessage('Project added successfully! Your site is now redeploying.');
+        // Reset form
+        setFormData({ title: '', category: 'Residential', location: '', value: '', duration: '', description: '' });
+        setImageFile(null);
+        (document.getElementById('image') as HTMLInputElement).value = '';
+
+    } catch (error) {
+        console.error('Error submitting project:', error);
+        setStatusMessage(`An error occurred: ${(error as Error).message}. Check the console for details.`);
+    } finally {
+        setIsSubmitting(false);
+    }
+};
+
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -26,15 +195,15 @@ const Admin = () => {
 
         <div className="bg-white rounded-lg shadow-md p-8">
           <h2 className="text-2xl font-semibold text-gray-700 mb-6">Add New Project</h2>
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">Project Title</label>
-              <input type="text" id="title" name="title" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
+              <input type="text" id="title" name="title" value={formData.title} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" required />
             </div>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                    <select id="category" name="category" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                    <select id="category" name="category" value={formData.category} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" required>
                         <option>Residential</option>
                         <option>Commercial</option>
                         <option>Industrial</option>
@@ -42,30 +211,31 @@ const Admin = () => {
                 </div>
                 <div>
                     <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">Location</label>
-                    <input type="text" id="location" name="location" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
+                    <input type="text" id="location" name="location" value={formData.location} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" required />
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label htmlFor="value" className="block text-sm font-medium text-gray-700 mb-2">Project Value</label>
-                    <input type="text" id="value" name="value" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
+                    <input type="text" id="value" name="value" value={formData.value} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" required />
                 </div>
                 <div>
                     <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">Project Duration</label>
-                    <input type="text" id="duration" name="duration" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" />
+                    <input type="text" id="duration" name="duration" value={formData.duration} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" required />
                 </div>
             </div>
             <div>
               <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">Image</label>
-              <input type="file" id="image" name="image" className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"/>
+              <input type="file" id="image" name="image" onChange={handleFileChange} accept="image/*" className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100" required/>
             </div>
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-              <textarea id="description" name="description" rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"></textarea>
+              <textarea id="description" name="description" value={formData.description} onChange={handleInputChange} rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" required></textarea>
             </div>
-            <button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-medium text-lg transition-colors duration-200">
-              Add Project
+            <button type="submit" disabled={isSubmitting} className="w-full bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-medium text-lg transition-colors duration-200 disabled:bg-gray-400">
+              {isSubmitting ? 'Submitting...' : 'Add Project'}
             </button>
+            {statusMessage && <p className="text-center text-gray-600 mt-4">{statusMessage}</p>}
           </form>
         </div>
       </div>
