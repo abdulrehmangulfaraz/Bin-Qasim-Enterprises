@@ -268,7 +268,7 @@ const Contact = () => {
         <div className="mt-16">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462118.0028247076!2d66.8252174828624!3d25.19323381623395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f90157042d3%3A0x93d609e8bec9a880!2sDHA%20Phase%202%2C%20Karachi%2C%20Karachi%20City%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1662557933932!5m2!1sen!2s"
+              src="https://maps.app.goo.gl/xmeAjTsz18Dhuhm46"
               className="w-full h-96 border-0"
               allowFullScreen={false}
               loading="lazy"
