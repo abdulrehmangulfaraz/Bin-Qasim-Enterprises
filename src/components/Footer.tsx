@@ -1,5 +1,14 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Facebook, Linkedin, Twitter, Instagram, ArrowUp } from 'lucide-react';
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Facebook,
+  Linkedin,
+  Twitter,
+  Instagram,
+  ArrowUp,
+} from 'lucide-react';
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -37,7 +46,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-900 text-gray-300 relative">
+    <footer className="relative bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 text-gray-300">
       {/* Scroll to top button */}
       <button
         onClick={scrollToTop}
@@ -51,21 +60,22 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* About Section */}
-          <div className="lg:col-span-1">
+          <div>
             <img
               src="/logo1.png"
               alt="Bin Qasim Enterprises Logo"
-              className="h-16 w-auto mb-6"
+              className="h-16 w-auto mb-6 brightness-110 drop-shadow-lg"
             />
             <p className="mb-6 leading-relaxed text-gray-400 text-sm">
-              Building Pakistan's future with quality construction, innovative designs, and exceptional service since 2010.
+              Building Pakistan's future with quality construction, innovative
+              designs, and exceptional service since 2010.
             </p>
             <div className="flex space-x-3">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.href}
-                  className="bg-gray-800 hover:bg-brand-secondary text-white p-2.5 rounded-full transition-colors duration-200"
+                  className="bg-white/10 hover:bg-brand-secondary text-white p-2.5 rounded-full transition-all duration-300 hover:scale-110 shadow-md"
                 >
                   <social.icon size={18} />
                 </a>
@@ -75,7 +85,9 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
+            <h4 className="text-lg font-semibold mb-4 text-white border-l-4 border-brand-secondary pl-3">
+              Quick Links
+            </h4>
             <ul className="space-y-2 text-sm">
               {quickLinks.map((link) => (
                 <li key={link.id}>
@@ -92,28 +104,46 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Our Services</h4>
+            <h4 className="text-lg font-semibold mb-4 text-white border-l-4 border-brand-secondary pl-3">
+              Our Services
+            </h4>
             <ul className="space-y-2 text-sm">
               {services.map((service) => (
-                <li key={service}>{service}</li>
+                <li
+                  key={service}
+                  className="hover:text-brand-secondary transition-colors duration-200"
+                >
+                  {service}
+                </li>
               ))}
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Contact Info</h4>
+            <h4 className="text-lg font-semibold mb-4 text-white border-l-4 border-brand-secondary pl-3">
+              Contact Info
+            </h4>
             <div className="space-y-3 text-sm">
               <div className="flex items-start space-x-3">
-                <MapPin className="text-brand-secondary mt-0.5 flex-shrink-0" size={16} />
+                <MapPin
+                  className="text-brand-secondary mt-0.5 flex-shrink-0"
+                  size={16}
+                />
                 <p>Office # 123, Main Boulevard, DHA Phase 2, Karachi, Pakistan</p>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="text-brand-secondary flex-shrink-0" size={16} />
+                <Phone
+                  className="text-brand-secondary flex-shrink-0"
+                  size={16}
+                />
                 <p>+92 300 1234567</p>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="text-brand-secondary flex-shrink-0" size={16} />
+                <Mail
+                  className="text-brand-secondary flex-shrink-0"
+                  size={16}
+                />
                 <p>info@binqasimenterprises.com</p>
               </div>
             </div>
@@ -122,9 +152,12 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-gray-800 border-t border-gray-700 py-4">
+      <div className="bg-black/30 border-t border-gray-700 py-4 backdrop-blur-sm">
         <div className="container mx-auto px-4 text-center text-xs text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Bin Qasim Enterprises. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Bin Qasim Enterprises. All rights
+            reserved.
+          </p>
         </div>
       </div>
     </footer>
