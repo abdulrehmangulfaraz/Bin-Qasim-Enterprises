@@ -85,12 +85,7 @@ const Services = () => {
                       {feature}
                     </li>
                   ))}
-                </ul>
-                
-                <button className="flex items-center text-orange-500 font-medium group-hover:text-orange-600 transition-colors duration-300">
-                  Learn more
-                  <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform duration-300" />
-                </button>
+                </ul>                
               </div>
             </div>
           ))}
