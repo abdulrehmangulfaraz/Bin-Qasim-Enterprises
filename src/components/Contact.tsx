@@ -268,7 +268,7 @@ const Contact = () => {
         <div className="mt-16">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
             <iframe
-              src="https://maps.app.goo.gl/xmeAjTsz18Dhuhm46"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1332.3487383526146!2d67.108948!3d24.827197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1692880000000!5m2!1sen!2s"
               className="w-full h-96 border-0"
               allowFullScreen={false}
               loading="lazy"
