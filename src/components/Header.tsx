@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,8 +27,8 @@ const Header = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-background-light/80 dark:bg-background-dark/80 shadow-md backdrop-blur-sm'
-          : 'bg-transparent'
+          ? 'bg-gray-900/95 shadow-md backdrop-blur-sm'
+          : 'bg-gray-900'
       }`}
     >
       <div className="container mx-auto px-4">
@@ -43,7 +42,7 @@ const Header = () => {
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className="font-medium text-text-primary-light dark:text-text-primary-dark hover:text-brand-secondary-dark dark:hover:text-brand-secondary-light transition-colors duration-200"
+                className="font-medium text-white hover:text-brand-secondary transition-colors duration-200"
               >
                 {item}
               </button>
@@ -51,22 +50,20 @@ const Header = () => {
           </nav>
 
           <div className="hidden lg:flex items-center space-x-4">
-            <ThemeToggle />
             <button
               onClick={() => scrollToSection('contact')}
-              className="bg-brand-secondary hover:bg-brand-secondary-dark text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105"
+              className="bg-brand-secondary hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105"
             >
               Get Quote
             </button>
           </div>
 
           <div className="lg:hidden flex items-center gap-4">
-            <ThemeToggle />
             <button onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? (
-                <X size={24} className="text-text-primary-light dark:text-text-primary-dark" />
+                <X size={24} className="text-white" />
               ) : (
-                <Menu size={24} className="text-text-primary-light dark:text-text-primary-dark" />
+                <Menu size={24} className="text-white" />
               )}
             </button>
           </div>
@@ -74,20 +71,20 @@ const Header = () => {
       </div>
 
       {isOpen && (
-        <div className="lg:hidden bg-background-alt-light dark:bg-background-alt-dark border-t border-border-light dark:border-border-dark">
+        <div className="lg:hidden bg-gray-800 border-t border-gray-700">
           <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
             {navLinks.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className="font-medium text-text-primary-light dark:text-text-primary-dark hover:text-brand-secondary-dark dark:hover:text-brand-secondary-light transition-colors duration-200 text-left"
+                className="font-medium text-white hover:text-brand-secondary transition-colors duration-200 text-left"
               >
                 {item}
               </button>
             ))}
             <button
               onClick={() => scrollToSection('contact')}
-              className="bg-brand-secondary hover:bg-brand-secondary-dark text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 w-fit"
+              className="bg-brand-secondary hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 w-fit"
             >
               Get Quote
             </button>

@@ -7,6 +7,9 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark font-sans transition-colors duration-300;
+    @apply bg-background text-text-secondary font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text-primary;
   }
 }
