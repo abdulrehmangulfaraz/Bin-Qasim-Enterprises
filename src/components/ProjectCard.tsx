@@ -112,19 +112,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <MapPin size={16} className="mr-2 text-orange-500 flex-shrink-0" />
             <span className="truncate">{project.location}</span>
           </div>
-          <div className="flex items-center text-sm text-gray-600">
+          {/* <div className="flex items-center text-sm text-gray-600">
             <DollarSign size={16} className="mr-2 text-orange-500 flex-shrink-0" />
             <span>{project.value}</span>
-          </div>
+          </div> */}
           <div className="flex items-center text-sm text-gray-600">
             <Calendar size={16} className="mr-2 text-orange-500 flex-shrink-0" />
             <span>{project.duration}</span>
           </div>
         </div>
 
-        <button className="w-full bg-orange-50 text-orange-500 hover:bg-orange-100 py-2 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white">
-          View Details
-        </button>
       </div>
     </div>
   );
