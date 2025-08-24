@@ -6,7 +6,7 @@ const Services = () => {
   const services = [
     { 
       icon: Home, 
-      title: 'Residential Construction', 
+      title: 'Residential Construction (with / without Material)', 
       description: 'Custom homes, apartments, and residential complexes built with precision and care.',
       features: ['Custom Design', 'Quality Materials', 'Timely Completion']
     },
@@ -89,12 +89,6 @@ const Services = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-lg font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-            Explore All Services
-          </button>
         </div>
       </div>
     </section>
