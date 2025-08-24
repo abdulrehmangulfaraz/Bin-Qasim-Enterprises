@@ -59,6 +59,7 @@ const Footer = () => {
       {/* Main footer content */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          
           {/* About Section */}
           <div>
             <img
@@ -109,11 +110,13 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2 text-sm">
               {services.map((service) => (
-                <li
-                  key={service}
-                  className="hover:text-brand-secondary transition-colors duration-200"
-                >
-                  {service}
+                <li key={service}>
+                  <button
+                    onClick={() => scrollToSection('services')}
+                    className="hover:text-brand-secondary transition-colors duration-200"
+                  >
+                    {service}
+                  </button>
                 </li>
               ))}
             </ul>
@@ -148,6 +151,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
