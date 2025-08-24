@@ -1,30 +1,5 @@
 [
   {
-    "id": 8,
-    "title": "Test case 2",
-    "category": "Commercial",
-    "location": "Test case 2",
-    "value": "2",
-    "duration": "Test case 2",
-    "description": "Test case 2",
-    "images": [
-      "/uploads/projects/8-IM-0001-0001.jpeg"
-    ]
-  },
-  {
-    "id": 7,
-    "title": "Test Project",
-    "category": "Residential",
-    "location": "Test",
-    "value": "20",
-    "duration": "5 min",
-    "description": "This is a test case.",
-    "images": [
-      "/uploads/projects/7-Malla Shehazada.jpg",
-      "/uploads/projects/7-White Illustrative Real Estate Logo (1).png"
-    ]
-  },
-  {
     "id": 1,
     "title": "Luxury Residential Complex",
     "category": "Residential",
