@@ -1,5 +1,18 @@
 [
   {
+    "id": 7,
+    "title": "Test Project",
+    "category": "Residential",
+    "location": "Test",
+    "value": "20",
+    "duration": "5 min",
+    "description": "This is a test case.",
+    "images": [
+      "/uploads/projects/7-Malla Shehazada.jpg",
+      "/uploads/projects/7-White Illustrative Real Estate Logo (1).png"
+    ]
+  },
+  {
     "id": 1,
     "title": "Luxury Residential Complex",
     "category": "Residential",
