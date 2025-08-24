@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 
 const testimonials = [
-    { id: 1, name: 'Ahmed Hassan', position: 'Property Developer', company: 'Hassan Builders', image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop', rating: 5, text: 'Bin Qasim Enterprises delivered our residential complex project with exceptional quality and professionalism. Their attention to detail and commitment to deadlines is remarkable.' },
-    { id: 2, name: 'Sarah Khan', position: 'Business Owner', company: 'Khan Enterprises', image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop', rating: 5, text: 'Working with Bin Qasim for our office building was a fantastic experience. They managed the entire project seamlessly and delivered beyond our expectations.' },
-    { id: 3, name: 'Muhammad Ali', position: 'Factory Owner', company: 'Ali Manufacturing', image: 'https://images.pexels.com/photos/1121796/pexels-photo-1121796.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop', rating: 5, text: 'The industrial facility they built for us is outstanding. The quality of construction and their project management skills are top-notch. Highly recommended!' },
-    { id: 4, name: 'Fatima Sheikh', position: 'Homeowner', company: 'Private Client', image: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop', rating: 5, text: 'Our dream home became a reality thanks to their team. They were professional, responsive, and delivered exactly what we envisioned for our family.' }
+    { id: 1, name: 'Shehzada Waseem', position: 'Property Developer', company: 'An-Naffy Enterprises', image: '', rating: 5, text: 'Bin Qasim Enterprises delivered our residential complex project with exceptional quality and professionalism. Their attention to detail and commitment to deadlines is remarkable.' },
+    { id: 2, name: 'Khliq-o-Zaman', position: 'Business Owner', company: 'KKB Pvt Ltd', image: '', rating: 5, text: 'Working with Bin Qasim for our office building was a fantastic experience. They managed the entire project seamlessly and delivered beyond our expectations.' },
+    { id: 3, name: 'Maqsood Ahmad', position: 'Property Developer', company: 'Tahir Builders', image: '', rating: 5, text: 'The industrial facility they built for us is outstanding. The quality of construction and their project management skills are top-notch. Highly recommended!' },
+    { id: 4, name: 'Fatima Sheikh', position: 'Homeowner', company: 'Private Client', image: '', rating: 5, text: 'Our dream home became a reality thanks to their team. They were professional, responsive, and delivered exactly what we envisioned for our family.' }
 ];
 
 const Testimonials = () => {
