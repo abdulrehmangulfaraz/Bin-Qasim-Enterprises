@@ -1,5 +1,17 @@
 [
   {
+    "id": 8,
+    "title": "Test case 2",
+    "category": "Commercial",
+    "location": "Test case 2",
+    "value": "2",
+    "duration": "Test case 2",
+    "description": "Test case 2",
+    "images": [
+      "/uploads/projects/8-IM-0001-0001.jpeg"
+    ]
+  },
+  {
     "id": 7,
     "title": "Test Project",
     "category": "Residential",
