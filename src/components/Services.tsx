@@ -12,19 +12,19 @@ const Services = () => {
     },
     { 
       icon: Building, 
-      title: 'Commercial Construction', 
+      title: 'Commercial Construction (with / without Material)', 
       description: 'Office buildings, retail spaces, and commercial complexes for modern businesses.',
       features: ['Modern Design', 'Functional Spaces', 'Cost-Effective']
     },
     { 
       icon: Factory, 
-      title: 'Industrial Projects', 
+      title: 'Industrial Projects (with / without Material)', 
       description: 'Manufacturing facilities, factories, and industrial infrastructure development.',
       features: ['Heavy Duty', 'Efficient Layouts', 'Safety Compliance']
     },
     { 
       icon: Wrench, 
-      title: 'Renovation Services', 
+      title: 'Renovation Services (with / without Material)', 
       description: 'Transform existing spaces with our comprehensive renovation and remodeling services.',
       features: ['Space Optimization', 'Material Upgrade', 'Minimal Disruption']
     },
