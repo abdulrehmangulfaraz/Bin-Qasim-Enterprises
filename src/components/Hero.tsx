@@ -139,9 +139,9 @@ const Hero = () => {
             variants={containerVariants}
           >
             {[
-              { icon: Award, value: '150+', label: 'Projects Completed' },
-              { icon: Users, value: '500+', label: 'Happy Clients' },
-              { icon: Calendar, value: '14+', label: 'Years Experience' },
+              { icon: Award, value: '20+', label: 'Projects Completed' },
+              { icon: Users, value: '20+', label: 'Happy Clients' },
+              { icon: Calendar, value: '12+', label: 'Years Experience' },
             ].map((stat, index) => (
               <motion.div
                 key={index}

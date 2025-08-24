@@ -144,8 +144,8 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
               'Best Construction Company 2023',
-              'Safety Excellence Award',
-              'Client Satisfaction Award',
+              'Safety Excellence',
+              'Client Satisfaction',
               'Innovation in Construction'
             ].map((award, index) => (
               <motion.div 
