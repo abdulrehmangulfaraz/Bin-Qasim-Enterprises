@@ -100,7 +100,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center space-x-6">
             <a href="tel:+923001234567" className={`flex items-center transition-colors duration-300 hover:text-orange-500 ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
               <Phone size={18} className="mr-2" />
-              <span className="text-sm font-medium">+92 300 1234567</span>
+              <span className="text-sm font-medium">+92 321 4853051</span>
             </a>
             <motion.button
               onClick={() => scrollToSection('contact')}

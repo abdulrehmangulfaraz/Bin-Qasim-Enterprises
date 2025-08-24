@@ -140,7 +140,7 @@ const Footer = () => {
                   className="text-brand-secondary flex-shrink-0"
                   size={16}
                 />
-                <p>+92 300 1234567</p>
+                <p>+92 321 4853051</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail
