@@ -1,6 +1,7 @@
 // Header.tsx
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, Briefcase } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,27 +10,21 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      
-      // Update active link based on scroll position
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 50);
+
       const sections = ['home', 'about', 'services', 'projects', 'testimonials', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-      
+      let currentSection = 'home';
       for (const section of sections) {
         const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetBottom = offsetTop + element.offsetHeight;
-          
-          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveLink(section);
-            break;
-          }
+        if (element && element.offsetTop <= scrollY + 100) {
+          currentSection = section;
         }
       }
+      setActiveLink(currentSection);
     };
-    
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -39,7 +34,6 @@ const Header = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsOpen(false);
-    setActiveLink(sectionId);
   };
 
   const navLinks = [
@@ -51,122 +45,132 @@ const Header = () => {
     { name: 'Contact', id: 'contact' },
   ];
 
+  const headerVariants = {
+    initial: { y: -100, opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    transition: { type: 'spring', stiffness: 100, damping: 20 },
+  };
+
+  const mobileMenuVariants = {
+    closed: { opacity: 0, y: -20 },
+    open: { opacity: 1, y: 0 },
+  };
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg py-2'
-          : 'bg-transparent py-4'
+    <motion.header
+      variants={headerVariants}
+      initial="initial"
+      animate="animate"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white/90 backdrop-blur-lg shadow-xl py-2' : 'bg-transparent py-4'
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <div 
-            onClick={() => scrollToSection('home')} 
-            className="cursor-pointer flex items-center group"
-          >
-            
-            <button onClick={() => scrollToSection('home')} className="cursor-pointer">
+          <div onClick={() => scrollToSection('home')} className="cursor-pointer flex items-center group">
             <img src="/logo1.png" alt="Bin Qasim Enterprises Logo" className="h-16 w-auto" />
-          </button>
-          
-            <div className={`hidden md:flex flex-col ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
-              <span className="font-bold text-lg leading-tight transition-all duration-300 group-hover:text-orange-500"> Bin Qasim</span>
-              <span className="text-sm transition-all duration-300 group-hover:text-orange-500"> Enterprises</span>
+            <div className={`hidden md:flex flex-col ml-2 transition-colors duration-300 ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
+              <span className="font-extrabold text-xl leading-tight group-hover:text-orange-500 transition-colors duration-300">Bin Qasim</span>
+              <span className="text-xs tracking-widest group-hover:text-orange-500 transition-colors duration-300">Enterprises</span>
             </div>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center space-x-2">
             {navLinks.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`font-medium transition-all duration-300 px-4 py-2 rounded-lg ${
-                  activeLink === item.id 
-                    ? 'bg-orange-500 text-white shadow-md' 
-                    : isScrolled 
-                      ? 'text-gray-700 hover:text-orange-500 hover:bg-orange-50' 
-                      : 'text-white hover:text-orange-300 hover:bg-white/10'
+                className={`relative font-medium transition-colors duration-300 px-4 py-2 rounded-lg ${
+                  isScrolled ? 'text-gray-700 hover:text-orange-600' : 'text-white hover:text-orange-300'
                 }`}
               >
-                {item.name}
+                {activeLink === item.id && (
+                  <motion.span
+                    layoutId="activePill"
+                    className="absolute inset-0 bg-orange-500 rounded-lg"
+                    style={{ zIndex: -1 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+                <span className={`relative z-10 ${activeLink === item.id ? 'text-white' : ''}`}>{item.name}</span>
               </button>
             ))}
           </nav>
 
-          {/* Contact Info */}
-          <div className="hidden md:flex items-center space-x-6">
-            <div className={`flex items-center ${isScrolled ? 'text-gray-700' : 'text-white'} transition-all duration-300 hover:text-orange-500`}>
+          <div className="hidden lg:flex items-center space-x-6">
+            <a href="tel:+923001234567" className={`flex items-center transition-colors duration-300 hover:text-orange-500 ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
               <Phone size={18} className="mr-2" />
               <span className="text-sm font-medium">+92 300 1234567</span>
-            </div>
-            
-            {/* Get Quote Button */}
-            <button
+            </a>
+            <motion.button
               onClick={() => scrollToSection('contact')}
-              className={`bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg ${
-                isScrolled ? '' : 'bg-white/20 backdrop-blur-sm hover:bg-orange-500'
-              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-lg font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
             >
-              Get Quote
-            </button>
+              Get a Quote
+            </motion.button>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="lg:hidden flex items-center gap-4">
-            <button 
+          <div className="lg:hidden">
+            <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`p-2 rounded-lg transition-all duration-300 ${
-                isScrolled ? 'bg-gray-100 text-gray-800' : 'bg-white/10 text-white backdrop-blur-sm'
+              className={`p-2 rounded-lg transition-colors duration-300 ${
+                isScrolled ? 'text-gray-800' : 'text-white'
               }`}
             >
-              {isOpen ? (
-                <X size={24} />
-              ) : (
-                <Menu size={24} />
-              )}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={isOpen ? 'x' : 'menu'}
+                  initial={{ rotate: isOpen ? -90 : 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: isOpen ? -90 : 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {isOpen ? <X size={24} /> : <Menu size={24} />}
+                </motion.div>
+              </AnimatePresence>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className={`lg:hidden ${isScrolled ? 'bg-white' : 'bg-gray-900'} border-t ${isScrolled ? 'border-gray-200' : 'border-gray-700'}`}>
-          <nav className="container mx-auto px-4 py-4 flex flex-col space-y-3">
-            {navLinks.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`font-medium py-3 px-4 rounded-lg transition-all duration-200 text-left ${
-                  activeLink === item.id
-                    ? 'bg-orange-500 text-white'
-                    : isScrolled
-                      ? 'text-gray-700 hover:bg-gray-100'
-                      : 'text-white hover:bg-white/10'
-                }`}
-              >
-                {item.name}
-              </button>
-            ))}
-            <div className="pt-4 border-t border-gray-200 mt-2">
-              <div className="flex items-center text-orange-500 pb-3">
-                <Phone size={18} className="mr-2" />
-                <span className="font-medium">+92 300 1234567</span>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            variants={mobileMenuVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            className="lg:hidden bg-white shadow-xl"
+          >
+            <nav className="container mx-auto px-4 py-4 flex flex-col space-y-2">
+              {navLinks.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`font-medium py-3 px-4 rounded-lg text-left transition-colors duration-200 ${
+                    activeLink === item.id ? 'bg-orange-500 text-white' : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  {item.name}
+                </button>
+              ))}
+              <div className="pt-4 border-t border-gray-200 mt-2">
+                <motion.button
+                  onClick={() => scrollToSection('contact')}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-orange-500 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 shadow-md flex items-center justify-center"
+                >
+                  <Briefcase size={18} className="mr-2"/> Get a Quote
+                </motion.button>
               </div>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 shadow-md"
-              >
-                Get Quote
-              </button>
-            </div>
-          </nav>
-        </div>
-      )}
-    </header>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 };
 
