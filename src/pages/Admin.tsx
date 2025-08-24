@@ -196,7 +196,7 @@ const Admin = () => {
                 </div>
             </div>
             <div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">Images</label>
+              <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">Images (Note: Only jpg/jpeg images are supported.)</label>
               <input type="file" id="image" name="image" onChange={handleFileChange} accept="image/*" className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100" required multiple />
             </div>
             {imageFiles.length > 0 && (
