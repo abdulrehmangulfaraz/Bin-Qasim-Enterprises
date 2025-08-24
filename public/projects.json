@@ -1,20 +1,5 @@
 [
   {
-    "id": 7,
-    "title": "Test case 1",
-    "category": "Residential",
-    "location": "Test",
-    "value": "21",
-    "duration": "Test case 1",
-    "description": "test with jpeg",
-    "images": [
-      "/uploads/projects/7-IM-0001-0001.jpeg",
-      "/uploads/projects/7-IM-0003-0001.jpeg",
-      "/uploads/projects/7-IM-0005-0001.jpeg",
-      "/uploads/projects/7-IM-0006-0001.jpeg"
-    ]
-  },
-  {
     "id": 1,
     "title": "Luxury Residential Complex",
     "category": "Residential",
