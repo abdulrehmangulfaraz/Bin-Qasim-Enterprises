@@ -1,5 +1,6 @@
+// Hero.tsx
 import React from 'react';
-import { ArrowRight, Award, Users, Calendar } from 'lucide-react';
+import { ArrowRight, Award, Users, Calendar, Play } from 'lucide-react';
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
@@ -12,7 +13,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center pt-20 text-center text-white"
+      className="relative min-h-screen flex items-center justify-center pt-20 text-center text-white overflow-hidden"
     >
       {/* Background Image with Gradient Overlay */}
       <div
@@ -25,18 +26,30 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 via-blue-900/80 to-gray-800/90"></div>
       </div>
 
+      {/* Animated Elements */}
+      <div className="absolute top-1/4 left-10 animate-float">
+        <div className="w-6 h-6 bg-orange-500 rounded-full opacity-70"></div>
+      </div>
+      <div className="absolute bottom-1/3 right-16 animate-float" style={{ animationDelay: '1s' }}>
+        <div className="w-10 h-10 border-4 border-orange-500 rounded-full opacity-50"></div>
+      </div>
+      <div className="absolute top-1/3 right-1/4 animate-pulse">
+        <div className="w-8 h-8 bg-blue-500 rounded-lg opacity-40"></div>
+      </div>
+
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4">
         <div className="max-w-4xl mx-auto animate-fadeIn">
           {/* Badge */}
-          <span className="inline-block bg-brand-secondary text-white px-5 py-2 rounded-full text-sm font-semibold shadow-lg mb-6 tracking-wide">
+          <div className="inline-flex items-center bg-white/10 backdrop-blur-md text-white px-5 py-2 rounded-full text-sm font-semibold shadow-lg mb-6 tracking-wide border border-white/20 hover:scale-105 transition-transform duration-300">
+            <Award size={16} className="mr-2" />
             Building Excellence Since 2010
-          </span>
+          </div>
 
           {/* Heading */}
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight font-serif drop-shadow-lg">
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
             <span className="text-white">Constructing Your</span>{' '}
-            <span className="text-brand-secondary">Dream Projects</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Dream Projects</span>
           </h1>
 
           {/* Subheading */}
@@ -50,19 +63,27 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <button
               onClick={() => scrollToSection('contact')}
-              className="bg-brand-secondary hover:opacity-90 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 flex items-center justify-center group transform hover:scale-105 shadow-md hover:shadow-xl"
+              className="group relative bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 flex items-center justify-center transform hover:scale-105 shadow-lg hover:shadow-xl overflow-hidden"
             >
-              Get Free Quote
-              <ArrowRight
-                className="ml-2 group-hover:translate-x-1 transition-transform duration-200"
-                size={20}
-              />
+              <span className="relative z-10 flex items-center">
+                Get Free Quote
+                <ArrowRight
+                  className="ml-2 group-hover:translate-x-1 transition-transform duration-200"
+                  size={20}
+                />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
+            
             <button
               onClick={() => scrollToSection('projects')}
-              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-brand-primary px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-md"
+              className="group relative bg-transparent border-2 border-white text-white hover:text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-md overflow-hidden"
             >
-              View Our Work
+              <span className="relative z-10 flex items-center">
+                <Play size={18} className="mr-2" />
+                View Our Work
+              </span>
+              <div className="absolute inset-0 bg-white transform origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
             </button>
           </div>
 
@@ -75,17 +96,24 @@ const Hero = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 hover:bg-white/20 transition duration-300 shadow-md hover:shadow-xl"
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 shadow-md hover:shadow-xl transform hover:-translate-y-1"
               >
                 <stat.icon
-                  className="mx-auto text-brand-secondary mb-3"
+                  className="mx-auto text-orange-400 mb-3"
                   size={36}
                 />
-                <div className="text-3xl font-bold mb-1">{stat.value}</div>
-                <div className="text-gray-200">{stat.label}</div>
+                <div className="text-3xl font-bold mb-1 text-white">{stat.value}</div>
+                <div className="text-gray-200 text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-white/70 rounded-full mt-2"></div>
         </div>
       </div>
     </section>
