@@ -111,8 +111,9 @@ const Contact = () => {
                     <div>
                       <h4 className="font-semibold mb-1 text-white">Address</h4>
                       <p className="text-blue-200/90">
-                        Office # 123, Main Boulevard,<br />
-                        DHA Phase 2, Karachi, Pakistan
+                        House # 998, 1st floor, Allah Wala Town<br />
+                        near Sufaid masjid, Korongi Crossing,<br />
+                        Karachi, Pakistan
                       </p>
                     </div>
                   </div>

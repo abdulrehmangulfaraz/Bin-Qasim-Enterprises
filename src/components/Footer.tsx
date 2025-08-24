@@ -59,7 +59,7 @@ const Footer = () => {
       {/* Main footer content */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          
+
           {/* About Section */}
           <div>
             <img
@@ -133,7 +133,10 @@ const Footer = () => {
                   className="text-brand-secondary mt-0.5 flex-shrink-0"
                   size={16}
                 />
-                <p>Office # 123, Main Boulevard, DHA Phase 2, Karachi, Pakistan</p>
+                <p>
+                  House # 998, 1st floor, Allah Wala Town<br />
+                  near Sufaid masjid, Korongi Crossing,<br />
+                  Karachi, Pakistan</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone
