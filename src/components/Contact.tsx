@@ -1,4 +1,3 @@
-// src/components/Contact.tsx
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, MessageSquare, Facebook, Linkedin, Twitter, Instagram, Building } from 'lucide-react';
 
@@ -10,12 +9,37 @@ const Contact = () => {
     service: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmissionStatus(null);
+
+    const myForm = e.target as HTMLFormElement;
+    const formData = new FormData(myForm);
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData as any).toString(),
+    })
+      .then(() => {
+        setSubmissionStatus('Thank you for your message! We will get back to you soon.');
+        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+      })
+      .catch((error) => {
+        setSubmissionStatus(`An error occurred: ${error.toString()}`);
+      })
+      .finally(() => setIsSubmitting(false));
   };
 
   const socialLinks = [
@@ -27,13 +51,11 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-      {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-orange-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
       
       <div className="container mx-auto px-4 relative z-10">
 
-        {/* Section Header */}
         <div className="text-center mb-16">
           <span className="text-orange-500 font-semibold text-sm uppercase tracking-wider flex items-center justify-center">
             <div className="w-12 h-0.5 bg-orange-500 mr-2"></div>
@@ -50,7 +72,6 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {/* Contact Information */}
           <div className="lg:col-span-1">
             <div className="bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 text-white rounded-2xl shadow-2xl p-8 h-full relative overflow-hidden group">
               <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
@@ -102,50 +123,26 @@ const Contact = () => {
                       </p>
                     </div>
                   </div>
-
-                  <div className="flex items-start space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors duration-300">
-                    <div className="w-10 h-10 bg-orange-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Clock className="text-orange-400" size={18} />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-1 text-white">Business Hours</h4>
-                      <p className="text-blue-200/90">Mon - Sat: 8:00 AM - 6:00 PM</p>
-                      <p className="text-blue-200/90">Sunday: Emergency Only</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Social Links */}
-                <div className="mt-10 pt-6 border-t border-blue-700">
-                  <h4 className="font-semibold mb-4 text-white">Follow Us</h4>
-                  <div className="flex space-x-3">
-                    {socialLinks.map((social, idx) => (
-                      <a
-                        key={idx}
-                        href={social.href}
-                        aria-label={social.label}
-                        className="w-10 h-10 bg-blue-800/60 hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg"
-                      >
-                        <social.icon size={18} className="text-white" />
-                      </a>
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 p-8 border border-gray-100">
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
               <div className="flex items-center mb-6">
                 <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
                   <MessageSquare className="text-orange-500" size={24} />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-800">Send Us a Message</h3>
               </div>
-
-              <form name="contact" method="POST" data-netlify="true" className="space-y-6">
+              <form
+                name="contact"
+                method="POST"
+                data-netlify="true"
+                onSubmit={handleSubmit}
+                className="space-y-6"
+              >
                 <input type="hidden" name="form-name" value="contact" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -161,7 +158,6 @@ const Contact = () => {
                       placeholder="Enter your full name"
                     />
                   </div>
-
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                     <input
@@ -176,7 +172,6 @@ const Contact = () => {
                     />
                   </div>
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
@@ -190,7 +185,6 @@ const Contact = () => {
                       placeholder="Enter your phone number"
                     />
                   </div>
-
                   <div>
                     <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">Service Required</label>
                     <select
@@ -209,7 +203,6 @@ const Contact = () => {
                     </select>
                   </div>
                 </div>
-
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Project Details *</label>
                   <textarea
@@ -223,28 +216,33 @@ const Contact = () => {
                     placeholder="Tell us about your project requirements..."
                   ></textarea>
                 </div>
-
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center group shadow-md hover:shadow-xl"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center group shadow-md hover:shadow-xl disabled:opacity-75"
                 >
-                  Send Message
-                  <Send className="ml-2 group-hover:translate-x-1 transition-transform duration-200" size={20} />
+                  {isSubmitting ? 'Sending...' : (
+                    <>
+                      Send Message
+                      <Send className="ml-2 group-hover:translate-x-1 transition-transform duration-200" size={20} />
+                    </>
+                  )}
                 </button>
               </form>
-
-              <div className="mt-6 p-4 bg-orange-50 rounded-xl text-sm text-orange-700 text-center border border-orange-100">
-                <strong>Response Time:</strong> We typically respond within 2-4 hours during business hours.
-              </div>
+              {submissionStatus && (
+                <div className={`mt-6 p-4 rounded-xl text-sm text-center border ${submissionStatus.startsWith('Error') ? 'bg-red-50 text-red-700 border-red-100' : 'bg-green-50 text-green-700 border-green-100'}`}>
+                  {submissionStatus}
+                </div>
+              )}
             </div>
           </div>
         </div>
-
+        
         {/* Map Section */}
         <div className="mt-16">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1332.3487383526146!2d67.108948!3d24.827197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1692880000000!5m2!1sen!2s"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.695952668564!2d67.1491718741498!3d24.84000304543788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33a79d1c3852d%3A0x62661a3a58e8e34a!2sAllah%20Wala%20Town%2C%20Korangi%2C%20Karachi%2C%20Karachi%20City%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1724410123456!5m2!1sen!2s"
               className="w-full h-96 border-0"
               allowFullScreen={false}
               loading="lazy"
@@ -252,6 +250,7 @@ const Contact = () => {
             </iframe>
           </div>
         </div>
+
       </div>
     </section>
   );

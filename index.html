@@ -11,6 +11,21 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <select name="service">
+        <option value="residential">Residential Construction</option>
+        <option value="commercial">Commercial Construction</option>
+        <option value="industrial">Industrial Projects</option>
+        <option value="renovation">Renovation Services</option>
+        <option value="consulting">Construction Consulting</option>
+      </select>
+      <textarea name="message"></textarea>
+    </form>
+    
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
