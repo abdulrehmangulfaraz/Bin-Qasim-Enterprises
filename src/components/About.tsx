@@ -1,10 +1,36 @@
 // About.tsx
 import React from 'react';
+import { motion, Variants } from 'framer-motion';
 import { CheckCircle, Target, Eye, Award, Sparkles } from 'lucide-react';
 
 const About = () => {
+  const sectionVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2, delayChildren: 0.3 },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: 'easeOut' } },
+  };
+
+  const imageVariants: Variants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: { scale: 1, opacity: 1, transition: { duration: 0.6, ease: 'easeOut' } },
+  };
+
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <motion.section
+      id="about"
+      className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={sectionVariants}
+    >
       {/* Decorative elements */}
       <div className="absolute top-20 left-0 w-72 h-72 bg-orange-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
       <div className="absolute top-40 right-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -13,26 +39,31 @@ const About = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Image Section */}
-          <div className="relative">
+          <motion.div className="relative" variants={itemVariants}>
             <div className="grid grid-cols-2 gap-6">
-              <div className="relative group">
+              <motion.div className="relative group" variants={imageVariants}>
                 <div className="absolute -inset-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-300"></div>
                 <img
                   src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
                   alt="Construction Site"
                   className="relative rounded-lg shadow-lg transform group-hover:scale-105 transition duration-500"
                 />
-              </div>
-              <div className="relative group mt-12">
+              </motion.div>
+              <motion.div className="relative group mt-12" variants={imageVariants} transition={{ delay: 0.2 }}>
                 <div className="absolute -inset-2 bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-300"></div>
                 <img
                   src="https://images.pexels.com/photos/323503/pexels-photo-323503.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
                   alt="Modern Building"
                   className="relative rounded-lg shadow-lg transform group-hover:scale-105 transition duration-500"
                 />
-              </div>
+              </motion.div>
             </div>
-            <div className="absolute -bottom-6 -right-6 bg-gradient-to-br from-orange-500 to-orange-600 text-white p-6 rounded-xl shadow-xl transform hover:scale-105 transition duration-300">
+            <motion.div 
+              className="absolute -bottom-6 -right-6 bg-gradient-to-br from-orange-500 to-orange-600 text-white p-6 rounded-xl shadow-xl transform hover:scale-105 transition duration-300"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 10, delay: 0.5 }}
+            >
               <div className="flex items-center">
                 <Sparkles className="mr-2" size={20} />
                 <div>
@@ -40,11 +71,11 @@ const About = () => {
                   <div className="text-sm">Years of Excellence</div>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Content Section */}
-          <div>
+          <motion.div variants={itemVariants}>
             <div className="mb-8">
               <span className="text-orange-500 font-semibold text-sm uppercase tracking-wider flex items-center">
                 <div className="w-12 h-0.5 bg-orange-500 mr-2"></div>
@@ -67,18 +98,23 @@ const About = () => {
                 'On-Time Project Delivery',
                 '24/7 Customer Support'
               ].map((item, index) => (
-                <div key={index} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-orange-50 transition-colors duration-200">
+                <motion.div 
+                  key={index} 
+                  className="flex items-center space-x-4 p-3 rounded-lg hover:bg-orange-50 transition-colors duration-200"
+                  custom={index}
+                  variants={itemVariants}
+                >
                   <div className="flex-shrink-0 w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
                     <CheckCircle className="text-orange-500" size={16} />
                   </div>
                   <span className="text-gray-700">{item}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
 
             {/* Mission & Vision */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 group">
+              <motion.div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 group" variants={itemVariants}>
                 <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-500 transition-colors duration-300">
                   <Target className="text-orange-500 group-hover:text-white" size={24} />
                 </div>
@@ -87,8 +123,8 @@ const About = () => {
                   To deliver outstanding construction solutions that exceed client expectations 
                   while maintaining the highest standards of safety and quality.
                 </p>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 group">
+              </motion.div>
+              <motion.div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 group" variants={itemVariants}>
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-500 transition-colors duration-300">
                   <Eye className="text-blue-500 group-hover:text-white" size={24} />
                 </div>
@@ -97,14 +133,14 @@ const About = () => {
                   To be Pakistan's leading construction company, known for innovation, 
                   sustainability, and creating spaces that enhance communities.
                 </p>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Awards Section */}
         <div className="mt-20 text-center">
-          <h3 className="text-2xl font-bold text-gray-800 mb-10">Recognized Excellence</h3>
+          <motion.h3 className="text-2xl font-bold text-gray-800 mb-10" variants={itemVariants}>Recognized Excellence</motion.h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
               'Best Construction Company 2023',
@@ -112,17 +148,22 @@ const About = () => {
               'Client Satisfaction Award',
               'Innovation in Construction'
             ].map((award, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 group">
+              <motion.div 
+                key={index} 
+                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 group"
+                custom={index}
+                variants={itemVariants}
+              >
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300">
                   <Award className="text-white" size={32} />
                 </div>
                 <h4 className="font-medium text-gray-800 group-hover:text-orange-600 transition-colors duration-300">{award}</h4>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
