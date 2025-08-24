@@ -1,4 +1,4 @@
-// Contact.tsx
+// src/components/Contact.tsx
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, MessageSquare, Facebook, Linkedin, Twitter, Instagram, Building } from 'lucide-react';
 
@@ -10,21 +10,6 @@ const Contact = () => {
     service: '',
     message: ''
   });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      alert('Thank you for your message. We will get back to you soon!');
-      setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-      setIsSubmitting(false);
-    }, 1500);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -160,7 +145,8 @@ const Contact = () => {
                 <h3 className="text-2xl font-bold text-gray-800">Send Us a Message</h3>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form name="contact" method="POST" data-netlify="true" className="space-y-6">
+                <input type="hidden" name="form-name" value="contact" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
@@ -240,20 +226,10 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center group shadow-md hover:shadow-xl disabled:opacity-75 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center group shadow-md hover:shadow-xl"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <Send className="ml-2 group-hover:translate-x-1 transition-transform duration-200" size={20} />
-                    </>
-                  )}
+                  Send Message
+                  <Send className="ml-2 group-hover:translate-x-1 transition-transform duration-200" size={20} />
                 </button>
               </form>
 
