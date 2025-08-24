@@ -147,7 +147,7 @@ const Footer = () => {
                   className="text-brand-secondary flex-shrink-0"
                   size={16}
                 />
-                <p>info@binqasimenterprises.com</p>
+                <p>binqasim.enterprises.pk@gmail.com</p>
               </div>
             </div>
           </div>
