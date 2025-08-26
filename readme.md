@@ -147,6 +147,7 @@ We encourage contributions that enhance:
 ## 📬 Contact & Credits
 
 📧 **Business Inquiries:** [binqasim.enterprises.pk@gmail.com](mailto:binqasim.enterprises.pk@gmail.com)
+<br>
 📧 **Developer:** [abdulrehmangulfaraz1@gmail.com](mailto:abdulrehmangulfaraz1@gmail.com)
 
 Crafted with 🤍 by **Abdulrehman Gulfaraz**
