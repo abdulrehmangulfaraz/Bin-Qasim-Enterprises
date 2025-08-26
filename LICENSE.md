@@ -33,6 +33,7 @@ You are **not allowed to**:
 For commercial usage, partnership, or brand collaboration, you must obtain **explicit written permission** from:
 
 📧 **[abdulrehmangulfaraz1@gmail.com](mailto:abdulrehmangulfaraz1@gmail.com)**
+📧 **[binqasim.enterprises.pk@gmail.com](mailto:binqasim.enterprises.pk@gmail.com)**
 
 ---
 
