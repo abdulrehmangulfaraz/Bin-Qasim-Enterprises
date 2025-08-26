@@ -124,7 +124,7 @@ Now open 👉 `http://localhost:5173` in your browser.
 ## 📖 License
 
 This project follows a **custom license**.
-👉 Please read the [LICENSE](./LICENSE) file for complete details.
+👉 Please read the [LICENSE](./LICENSE.md) file for complete details.
 
 ---
 
